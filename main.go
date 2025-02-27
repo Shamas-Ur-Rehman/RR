@@ -14,7 +14,6 @@ import (
 
 var collection *mongo.Collection
 
-// Registration represents the structure of form data
 type Registration struct {
 	ID           primitive.ObjectID `bson:"_id,omitempty" json:"id"`
 	Title        string             `bson:"title" json:"title"`
@@ -34,7 +33,6 @@ func main() {
 	r := gin.Default()
 	r.Use(corsMiddleware())
 
-	// Connect to MongoDB
 	clientOptions := options.Client().ApplyURI("mongodb+srv://shamasurrehman509:LqqXCkGoS6WNLXxP@cluster0.2ttxi.mongodb.net/")
 	client, err := mongo.Connect(context.TODO(), clientOptions)
 	if err != nil {
@@ -42,7 +40,6 @@ func main() {
 	}
 	collection = client.Database("registrationDB").Collection("registrations")
 
-	// Routes
 	r.POST("/register", registerUser)
 	r.GET("/registrations", getRegistrations)
 
@@ -50,7 +47,6 @@ func main() {
 	r.Run(":8080")
 }
 
-// CORS middleware
 func corsMiddleware() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		c.Writer.Header().Set("Access-Control-Allow-Origin", "*")
